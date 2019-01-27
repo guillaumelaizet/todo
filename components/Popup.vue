@@ -79,6 +79,7 @@ export default {
     validate () {
       if (this.$refs.form.validate()) {
         let data = {
+          id: Math.random().toString(36).substr(2,9),
           title: this.title,
           taskReceiver : this.taskReceiver,
           completed: this.completed,

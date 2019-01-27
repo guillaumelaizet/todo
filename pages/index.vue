@@ -1,8 +1,28 @@
 <template>
-  <section class="">
+  <section class="contains">
     <v-app>
       <Header/>
-      <div class="no-task">
+      <div v-if="TODOS.length > 0" class="render">
+        <p id="title">Les Tâches</p>
+        <v-list
+          class="list"
+        >
+          <v-list-tile v-for="(todo, index) in TODOS"
+          :key="index" class="list-tile">
+            <v-list-tile-content class="list-tile-content">
+              <v-list-tile-title>{{todo.title}}</v-list-tile-title>
+              <v-list-tile-sub-title>
+              <span>destinée à <strong>{{todo.taskReceiver}}</strong></span>
+              -- <small>{{todo.id}}</small>
+            </v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-btn class="btn-delete" color="error" @click="deleteTask(todo.id)">Supprimer</v-btn>
+
+            <!-- <v-divider class="divider" v-if="TODOS.length > 1 && index !== TODOS.length - 1"></v-divider> -->
+          </v-list-tile>
+        </v-list>
+      </div>
+      <div v-else class="no-task">
         <p>Il n'y a pas encore de tâche(s) définie(s)</p>
       </div>
       <Footer/>
@@ -13,17 +33,58 @@
 <script>
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
+import {mapGetters} from 'vuex'
 
 
 export default {
   components: {
     Header,
     Footer
+  },
+
+  computed: {
+    ...mapGetters(['TODOS'])
+  },
+
+
+  methods: {
+    deleteTask (id) {
+      console.log(id)
+      this.$store.dispatch('DELETE_TASK', id)
+    }
   }
 }
 </script>
 
 <style>
+
+.render {
+  margin-top: 10vh;
+}
+
+#title {
+    margin: 0 auto 5vh auto;
+    text-align: center;
+    color: grey;
+    font-size: 2em;
+}
+
+.list {
+  width: 70%;
+  text-align: center;
+  margin: auto;
+}
+
+.list-tile {
+  padding: 2vh;
+  flex-wrap: nowrap;
+}
+
+.list-tile:hover {
+  background: #e6e6e6;
+
+}
+
 .no-task {
   margin: auto;
   color: grey;
