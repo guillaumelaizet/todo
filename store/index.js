@@ -1,19 +1,24 @@
 import Vuex from 'vuex'
 
 const createStore = () => {
-  return new Store({
+  return new Vuex.Store({
     state: {
-      todos: []
+      todos: [],
+      tasker: ['Guillaume', 'Quentin', 'Marie']
     },
 
-    getter: {
+    getters: {
       TODOS: state => {
         return state.todos
+      },
+
+      TASKERS: state => {
+        return state.tasker
       }
     },
 
     mutations: {
-      ADD_TODO: (state, payload) => {
+      ADD_TODO : (state, payload) => {
         state.todos.push(payload)
       }
     },
@@ -25,3 +30,5 @@ const createStore = () => {
     }
   })
 }
+
+export default createStore
