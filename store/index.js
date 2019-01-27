@@ -29,7 +29,6 @@ const createStore = () => {
       },
 
       GET_TASK : (state, payload) => {
-        console.log('payload ' + payload)
         let task = state.todos.findIndex(todo => todo.id === payload)
         state.task = state.todos[task]
       },
@@ -47,8 +46,6 @@ const createStore = () => {
 
     actions: {
       SAVE_TODO : (context, payload) => {
-        moment.locale('fr')
-        payload.date = 'Ajouté le ' + moment(payload.date).format('LL') + ' à ' + moment(payload.date).format('LT')
         context.commit('ADD_TODO', payload)
       },
 
@@ -57,8 +54,6 @@ const createStore = () => {
       },
 
       UPDATE_TASK: (context, payload) => {
-        moment.locale('fr')
-        payload.date = 'Mise à jour le  ' + moment(payload.date).format('LL') + ' à ' + moment(payload.date).format('LT')
         context.commit('UPDATE_TASK', payload)
       },
 

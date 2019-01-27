@@ -9,11 +9,11 @@
       color="info"
       slot="activator"
     >
-      Créer tâche
+      <strong>Créer une tâche</strong>
     </div>
-    <v-card>
+    <v-card @keyup.enter.native="validate">
       <v-card-title>
-        Créer
+        <strong>Tâche</strong>
       </v-card-title>
       <v-card-text>
         <v-form
@@ -36,10 +36,10 @@
           ></v-select>
           <v-btn
           :disabled="!valid"
-            color="success"
-            @click="validate"
+          color="success"
+          @click="validate"
           >
-          Valider
+          Créer
           </v-btn>
         </v-form>
       </v-card-text>
@@ -50,6 +50,8 @@
 <script>
 
 import {mapGetters} from 'vuex'
+import moment from 'moment'
+
 export default {
 
 
@@ -85,13 +87,19 @@ export default {
           completed: this.completed,
           date: new Date()
         }
-        this.dialog = false
-        this.title = ''
-        this.titleRules = []
-        this.taskersRules = []
-        this.taskReceiver = ''
+        moment.locale('fr')
+        data.date = 'Ajouté le ' + moment(data.date).format('LL') + ' à ' + moment(data.date).format('LT')
+        this.resetForm()
         this.$store.dispatch('SAVE_TODO', data)
       }
+    },
+
+    resetForm () {
+      this.dialog = false
+      this.title = ''
+      this.titleRules = []
+      this.taskersRules = []
+      this.taskReceiver = ''
     }
   }
 }
@@ -108,7 +116,9 @@ export default {
   top: 50%;
   transform: translate(-50%,-50%);
   vertical-align: center;
-  width: 180px;
+  width: 250px;
+
 
 }
+
 </style>

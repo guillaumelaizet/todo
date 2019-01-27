@@ -46,6 +46,7 @@
 import Header from '~/components/Header.vue'
 import Footer from '~/components/Footer.vue'
 import {mapGetters} from 'vuex'
+import moment from 'moment'
 
 export default {
 
@@ -69,13 +70,14 @@ export default {
 
   mounted() {
     let id = this.$router.currentRoute.query.id
-    console.log(id)
     this.$store.dispatch('GET_TASK', id)
   },
 
   methods: {
     validate (task) {
       task.date = new Date()
+      moment.locale('fr')
+      task.date = 'Mise à jour le  ' + moment(task.date).format('LL') + ' à ' + moment(task.date).format('LT')
       this.$store.dispatch('UPDATE_TASK', task)
       this.$router.go(-1)
     },
