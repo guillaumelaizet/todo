@@ -1,19 +1,22 @@
 <template>
   <section class="contains">
     <v-app>
-      <Header/>
+      <Header :toDoList="true"/>
       <div v-if="TODOS.length > 0" class="render">
         <p id="title">Les Tâches</p>
         <v-list
           class="list"
         >
-          <v-list-tile v-for="(todo, index) in TODOS"
+          <v-list-tile @click="detailTask(todo.id)" v-for="(todo, index) in TODOS"
           :key="index" class="list-tile">
             <v-list-tile-content class="list-tile-content">
-              <v-list-tile-title>{{todo.title}}</v-list-tile-title>
+              <v-list-tile-title>{{todo.title}}
+              <span class="completed" v-if="todo.completed">(Tâche complétée)</span>
+              <span class="not-completed" v-else>(Tâche non complétée)</span>
+            </v-list-tile-title>
               <v-list-tile-sub-title>
               <span>destinée à <strong>{{todo.taskReceiver}}</strong></span>
-              -- <small>{{todo.id}}</small>
+              -- <small>{{todo.date}}</small>
             </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-btn class="btn-delete" color="error" @click="deleteTask(todo.id)">Supprimer</v-btn>
@@ -48,6 +51,10 @@ export default {
 
 
   methods: {
+    detailTask (id) {
+      this.$router.push('/task?id=' + id)
+    },
+
     deleteTask (id) {
       console.log(id)
       this.$store.dispatch('DELETE_TASK', id)
@@ -89,5 +96,13 @@ export default {
   margin: auto;
   color: grey;
   font-size: 2em;
+}
+
+.completed {
+  color: #2E7D32;
+}
+
+.not-completed {
+  color: #ffb300;
 }
 </style>

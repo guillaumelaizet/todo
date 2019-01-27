@@ -4,12 +4,17 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       todos: [],
+      task: {},
       tasker: ['Guillaume', 'Quentin', 'Marie']
     },
 
     getters: {
       TODOS: state => {
         return state.todos
+      },
+
+      TASK: state => {
+        return state.task
       },
 
       TASKERS: state => {
@@ -22,6 +27,12 @@ const createStore = () => {
         state.todos.push(payload)
       },
 
+      GET_TASK : (state, payload) => {
+        console.log('payload ' + payload)
+        let task = state.todos.findIndex(todo => todo.id === payload)
+        state.task = state.todos[task]
+      },
+
       DELETE_TASK : (state, payload) => {
         let task = state.todos.findIndex(todo => todo.id === payload)
         console.log('task ' + task)
@@ -32,6 +43,10 @@ const createStore = () => {
     actions: {
       SAVE_TODO : (context, payload) => {
         context.commit('ADD_TODO', payload)
+      },
+
+      GET_TASK : (context, payload) => {
+        context.commit('GET_TASK', payload)
       },
 
       DELETE_TASK : (context, payload) => {

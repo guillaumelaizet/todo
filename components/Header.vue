@@ -3,7 +3,7 @@
       <v-toolbar-title class="white--text">Todos List</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <Popup/>
+        <Popup v-show="isToDoList"/>
       </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -14,6 +14,7 @@ import Popup from '~/components/Popup.vue'
 
 export default {
 
+  props: ['toDoList'],
 
   components: {
     Popup
@@ -22,6 +23,7 @@ export default {
 
   data () {
     return {
+      isToDoList: this.toDoList
     }
   }
 
