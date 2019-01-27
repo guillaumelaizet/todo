@@ -4,10 +4,11 @@
       <Header :toDoList="true"/>
       <div v-if="TODOS.length > 0" class="render">
         <p id="title">Les Tâches</p>
+        <p id="total-complete">{{iscompleted}} tâche(s) sur {{TODOS.length}} complétée(s)</p>
         <v-list
           class="list"
         >
-          <v-list-tile @click="detailTask(todo.id)" v-for="(todo, index) in TODOS"
+          <v-list-tile v-for="(todo, index) in TODOS"
           :key="index" class="list-tile">
             <v-list-tile-content class="list-tile-content">
               <v-list-tile-title>{{todo.title}}
@@ -19,9 +20,8 @@
               -- <small>{{todo.date}}</small>
             </v-list-tile-sub-title>
             </v-list-tile-content>
+            <v-btn @click="detailTask(todo.id)" color="warning" >Changer</v-btn>
             <v-btn class="btn-delete" color="error" @click="deleteTask(todo.id)">Supprimer</v-btn>
-
-            <!-- <v-divider class="divider" v-if="TODOS.length > 1 && index !== TODOS.length - 1"></v-divider> -->
           </v-list-tile>
         </v-list>
       </div>
@@ -46,7 +46,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['TODOS'])
+    ...mapGetters(['TODOS']),
+    iscompleted () {
+      return this.$store.state.todos.filter(todo => todo.completed === true).length
+    },
+
+    notCompleted () {
+      return this.$store.state.todos.filter(todo => todo.completed === false).length
+    }
   },
 
 
@@ -69,11 +76,18 @@ export default {
   margin-top: 10vh;
 }
 
-#title {
-    margin: 0 auto 5vh auto;
+#title{
+    margin: 0 auto;
     text-align: center;
     color: grey;
     font-size: 2em;
+}
+
+#total-complete {
+  color: grey;
+  font-size: 1.5em;
+  text-align: center;
+  margin: 2vh auto;
 }
 
 .list {

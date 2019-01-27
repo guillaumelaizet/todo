@@ -87,6 +87,8 @@ export default {
         }
         this.dialog = false
         this.title = ''
+        this.titleRules = []
+        this.taskersRules = []
         this.taskReceiver = ''
         this.$store.dispatch('SAVE_TODO', data)
       }

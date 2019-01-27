@@ -75,7 +75,7 @@ export default {
 
   methods: {
     validate (task) {
-      console.log(task)
+      task.date = new Date()
       this.$store.dispatch('UPDATE_TASK', task)
       this.$router.go(-1)
     },
